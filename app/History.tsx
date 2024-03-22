@@ -256,7 +256,7 @@ export default function History({ address }: { address: string }) {
               pnl - fees > 0 ? "green-500" : "red-500",
             ]}
             customTooltip={customTooltip}
-            showAnimation
+            showAnimation={true}
             animationDuration={500}
           />
         </Card>
