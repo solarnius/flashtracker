@@ -181,7 +181,7 @@ export default function History({ address }: { address: string }) {
     <div className="flex flex-col items-center max-w-2xl w-full gap-4">
       <div className="flex flex-col w-full max-w-2xl mx-8">
         <h1 className="w-full max-w-2xl font-bold">Trading History</h1>
-        <span className="opacity-50">{address}</span>
+        <span className="opacity-50">{address.slice(0, 4)}...</span>
       </div>
 
       <div className="flex gap-4 w-full">
