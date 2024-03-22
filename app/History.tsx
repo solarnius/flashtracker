@@ -54,6 +54,33 @@ const MARKETS = {
     name: "USDC",
     denomination: 1_000_000,
   },
+  "5QQstJ2LpeHESWqGTWBw5aid8h4cdVUjXU61R84Pj2jr": {
+    name: "JUP",
+    denomination: 1_000_000,
+  },
+  Hi8kSmbtzucZpEYxvcq2H1QuyUCRuY3m7WGmTF2RhkVw: {
+    // short jup
+    name: "USDC",
+    denomination: 1_000_000,
+  },
+  "9V9eYLhVV13VoSfi3McfMcN7ie4WNkRdTbHggkaT8QCQ": {
+    name: "PYTH",
+    denomination: 1_000_000,
+  },
+  "2By2fgwfZQetZ56414KBDMZwNBstg3GAJtEePQtf3Aty": {
+    // short pyth
+    name: "USDC",
+    denomination: 1_000_000,
+  },
+  "7gnDo7scDFYmEnXW2JrGRzCrynmbakoCMqaEo7d2fydG": {
+    name: "JTO",
+    denomination: 1_000_000_000,
+  },
+  G7RdCWx4eNfLdagGp4H2tKwhTi9JihBozVLGMVduF1Xe: {
+    // short jto
+    name: "USDC",
+    denomination: 1_000_000,
+  },
 } as { [key: string]: { name: string; denomination: number } };
 
 let currentPositions = {} as { [key: string]: number };
@@ -92,6 +119,7 @@ export default function History({ address }: { address: string }) {
 
       if (!market) {
         console.log(trade.market);
+        console.log(trade);
         continue;
       }
 
@@ -134,8 +162,6 @@ export default function History({ address }: { address: string }) {
       }
 
       if (trade.tradeType === "LIQUIDATE") {
-        console.log("LIQ", currentPositions[trade.positionAddress]);
-
         balance -= currentPositions[trade.positionAddress] * 1_000_000;
         balanceAfterFees -= currentPositions[trade.positionAddress] * 1_000_000;
       }
@@ -160,8 +186,6 @@ export default function History({ address }: { address: string }) {
           feeRate =
             (baseFeeRate - feeUsd / Number.parseInt(trade.sizeUsd)) /
             baseFeeRate;
-
-          console.log(feeUsd / 1_000_000, feeRate);
         }
 
         feeSavings += feeRate * feeUsd;
@@ -308,14 +332,14 @@ export default function History({ address }: { address: string }) {
           </p>
         </Card>
 
-        <Card className="mx-auto grow">
+        {/* <Card className="mx-auto grow">
           <h4 className="text-tremor-default text-tremor-content dark:text-dark-tremor-content">
             Trade Count
           </h4>
           <p className="text-tremor-metric font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong">
             {trades.length}
           </p>
-        </Card>
+        </Card> */}
       </div>
       {balanceHistory.length > 0 && (
         <Card>
