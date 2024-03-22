@@ -1,6 +1,6 @@
 export default function Home() {
   return (
-    <p className="text-slate-400">
+    <p className="dark:text-slate-400 text-slate-700">
       this is a beta product designed to help you see your profitability on{" "}
       <a
         href="https://beast.flash.trade?referral=Beast_1373"
@@ -18,7 +18,7 @@ export default function Home() {
       >
         @solarnius
       </a>{" "}
-      on twitter.
+      on twitter. no guarantees are made about accuracy.
     </p>
   );
 }

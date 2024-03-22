@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { LineChart, Card } from "@tremor/react";
+import { AreaChart, Card } from "@tremor/react";
 
 interface Trade {
   txId: string;
@@ -245,14 +245,19 @@ export default function History({ address }: { address: string }) {
       </div>
       {balanceHistory.length > 0 && (
         <Card>
-          <LineChart
+          <AreaChart
             className="mt-4 h-48"
             data={balanceHistory}
             index="date"
             valueFormatter={dataFormatter}
             categories={["PNL", "Net PNL"]}
-            colors={["blue", "rose"]}
+            colors={[
+              pnl > 0 ? "green-800" : "red-800",
+              pnl - fees > 0 ? "green-500" : "red-500",
+            ]}
             customTooltip={customTooltip}
+            showAnimation
+            animationDuration={500}
           />
         </Card>
       )}
