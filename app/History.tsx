@@ -67,6 +67,8 @@ export default function History({ address }: { address: string }) {
   const [trades, setTrades] = useState([] as Trade[]);
   const [pnl, setPnl] = useState(0);
   const [fees, setFees] = useState(0);
+  const [feesSaved, setFeesSaved] = useState(0);
+  const [maxFeeSaved, setMaxFeeSaved] = useState(0);
   const [balanceHistory, setBalanceHistory] = useState([] as Balance[]);
 
   async function fetchData() {
@@ -79,6 +81,10 @@ export default function History({ address }: { address: string }) {
     let balance = 0;
     let balanceAfterFees = 0;
     let balances = [];
+    let feeRate = 0;
+    let feeSavings = 0;
+    let maxFeeSaved = 0;
+    let maxFeeDiscount = 0.35;
 
     for (let i = data.length - 1; i >= 0; i--) {
       const trade = data[i];
@@ -136,11 +142,30 @@ export default function History({ address }: { address: string }) {
 
       if (trade.feeAmount) {
         const price = Number.parseInt(trade.price, 10) / market.denomination;
-        const feeUsd =
-          market.name === "USDC"
-            ? Number.parseInt(trade.feeAmount)
-            : Number.parseInt(trade.feeAmount) * price;
+
+        let feeUsd = Number.parseInt(trade.feeAmount, 10);
+
+        if (trade.side === "long") {
+          feeUsd = Number.parseInt(trade.feeAmount) * price;
+        }
+
         balanceAfterFees -= feeUsd;
+
+        if (trade.tradeType === "OPEN_POSITION") {
+          const baseFeeRate =
+            Number.parseInt(trade.timestamp) < 1710604140 ? 0.001 : 0.0008;
+          maxFeeDiscount =
+            Number.parseInt(trade.timestamp) < 1710866700 ? 0.35 : 0.45;
+
+          feeRate =
+            (baseFeeRate - feeUsd / Number.parseInt(trade.sizeUsd)) /
+            baseFeeRate;
+
+          console.log(feeUsd / 1_000_000, feeRate);
+        }
+
+        feeSavings += feeRate * feeUsd;
+        maxFeeSaved += maxFeeDiscount * feeUsd;
       }
 
       balances.push({
@@ -152,6 +177,8 @@ export default function History({ address }: { address: string }) {
 
     setPnl(balance);
     setFees(balance - balanceAfterFees);
+    setFeesSaved(feeSavings);
+    setMaxFeeSaved(maxFeeSaved);
     setTrades(data);
     setBalanceHistory(balances);
   }
@@ -206,7 +233,7 @@ export default function History({ address }: { address: string }) {
       <div className="flex gap-4 w-full">
         <Card className="mx-auto grow">
           <h4 className="text-tremor-default text-tremor-content dark:text-dark-tremor-content">
-            Net PNL
+            Net Profit
           </h4>
           <p
             className="text-tremor-metric font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong"
@@ -217,11 +244,46 @@ export default function History({ address }: { address: string }) {
               style: "currency",
             })}
           </p>
+          <p className="text-tremor-default text-xs text-tremor-content dark:text-dark-tremor-content">
+            Could have been{" "}
+            {(
+              (pnl - fees + maxFeeSaved - feesSaved) /
+              1_000_000
+            ).toLocaleString("en-US", {
+              currency: "USD",
+              style: "currency",
+            })}{" "}
+            with a level 6 beast.
+          </p>
         </Card>
 
+        <Card className="mx-auto grow flex flex-col justify-center">
+          <h4 className="text-tremor-default text-tremor-content dark:text-dark-tremor-content">
+            Fees Saved
+          </h4>
+          <p
+            className="text-tremor-metric font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong"
+            style={{ color: "#15803d" }}
+          >
+            {(feesSaved / 1_000_000).toLocaleString("en-US", {
+              currency: "USD",
+              style: "currency",
+            })}
+          </p>
+          <p className="text-tremor-default text-xs text-tremor-content dark:text-dark-tremor-content">
+            Could have been{" "}
+            {(maxFeeSaved / 1_000_000).toLocaleString("en-US", {
+              currency: "USD",
+              style: "currency",
+            })}{" "}
+            with a level 6 beast.
+          </p>
+        </Card>
+      </div>
+      <div className="flex gap-4 w-full">
         <Card className="mx-auto grow">
           <h4 className="text-tremor-default text-tremor-content dark:text-dark-tremor-content">
-            Gross PNL
+            Gross Profit
           </h4>
           <p
             className="text-tremor-metric font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong"
@@ -231,16 +293,6 @@ export default function History({ address }: { address: string }) {
               currency: "USD",
               style: "currency",
             })}
-          </p>
-        </Card>
-      </div>
-      <div className="flex gap-4 w-full">
-        <Card className="mx-auto grow">
-          <h4 className="text-tremor-default text-tremor-content dark:text-dark-tremor-content">
-            Trade Count
-          </h4>
-          <p className="text-tremor-metric font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong">
-            {trades.length}
           </p>
         </Card>
 
@@ -253,6 +305,15 @@ export default function History({ address }: { address: string }) {
               currency: "USD",
               style: "currency",
             })}
+          </p>
+        </Card>
+
+        <Card className="mx-auto grow">
+          <h4 className="text-tremor-default text-tremor-content dark:text-dark-tremor-content">
+            Trade Count
+          </h4>
+          <p className="text-tremor-metric font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong">
+            {trades.length}
           </p>
         </Card>
       </div>
