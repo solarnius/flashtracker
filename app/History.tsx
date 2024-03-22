@@ -17,6 +17,7 @@ interface Trade {
   positionAddress: string;
   collateralUsd: string;
   timestamp: string;
+  side: string;
 }
 
 interface Balance {
@@ -99,24 +100,36 @@ export default function History({ address }: { address: string }) {
       }
 
       if (trade.tradeType === "ADD_COLLATERAL") {
-        currentPositions[trade.positionAddress] +=
-          ((Number.parseInt(trade.collateralAmount) / market.denomination) *
-            Number.parseInt(trade.price)) /
-          1_000_000;
+        if (trade.side === "long") {
+          currentPositions[trade.positionAddress] +=
+            ((Number.parseInt(trade.collateralAmount) / market.denomination) *
+              Number.parseInt(trade.price)) /
+            1_000_000;
+        } else {
+          currentPositions[trade.positionAddress] -=
+            Number.parseInt(trade.collateralAmount) / 1_000_000;
+        }
       }
 
       if (trade.tradeType === "INCREASE_SIZE") {
-        const price =
-          Number.parseInt(trade.sizeUsd) /
-          1_000_000 /
-          (Number.parseInt(trade.sizeAmount) / market.denomination);
+        if (trade.side === "long") {
+          const price =
+            Number.parseInt(trade.sizeUsd) /
+            1_000_000 /
+            (Number.parseInt(trade.sizeAmount) / market.denomination);
 
-        currentPositions[trade.positionAddress] +=
-          (Number.parseInt(trade.collateralAmount) / market.denomination) *
-          price;
+          currentPositions[trade.positionAddress] +=
+            (Number.parseInt(trade.collateralAmount) / market.denomination) *
+            price;
+        } else {
+          currentPositions[trade.positionAddress] -=
+            Number.parseInt(trade.collateralAmount) / 1_000_000;
+        }
       }
 
       if (trade.tradeType === "LIQUIDATE") {
+        console.log("LIQ", currentPositions[trade.positionAddress]);
+
         balance -= currentPositions[trade.positionAddress] * 1_000_000;
         balanceAfterFees -= currentPositions[trade.positionAddress] * 1_000_000;
       }
