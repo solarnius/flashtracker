@@ -266,7 +266,7 @@ export default function History({ address }: { address: string }) {
             Net Profit
           </h4>
           <p
-            className="text-tremor-metric font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong"
+            className="text-tremor-title sm:text-tremor-metric font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong"
             style={{ color: pnl - fees > 0 ? "#15803d" : "#b91c1c" }}
           >
             {((pnl - fees) / 1_000_000).toLocaleString("en-US", {
@@ -292,7 +292,7 @@ export default function History({ address }: { address: string }) {
             Fees Saved
           </h4>
           <p
-            className="text-tremor-metric font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong"
+            className="text-tremor-title sm:text-tremor-metric font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong"
             style={{ color: "#15803d" }}
           >
             {(feesSaved / 1_000_000).toLocaleString("en-US", {
@@ -316,7 +316,7 @@ export default function History({ address }: { address: string }) {
             Gross Profit
           </h4>
           <p
-            className="text-tremor-metric font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong"
+            className="text-tremor-title sm:text-tremor-metric font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong"
             style={{ color: pnl > 0 ? "#15803d" : "#b91c1c" }}
           >
             {(pnl / 1_000_000).toLocaleString("en-US", {
@@ -330,7 +330,7 @@ export default function History({ address }: { address: string }) {
           <h4 className="text-tremor-default text-tremor-content dark:text-dark-tremor-content">
             Fees Paid
           </h4>
-          <p className="text-tremor-metric font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong">
+          <p className="text-tremor-title sm:text-tremor-metric font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong">
             {(fees / 1_000_000).toLocaleString("en-US", {
               currency: "USD",
               style: "currency",
