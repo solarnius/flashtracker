@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AreaChart, Card } from "@tremor/react";
+import { AreaChart, Button, Card } from "@tremor/react";
 
 interface Trade {
   txId: string;
@@ -91,6 +91,8 @@ const dataFormatter = (number: number) =>
     .toString()}`;
 
 export default function History({ address }: { address: string }) {
+  const [timeframe, setTimeframe] = useState(0); // cutoff time
+  const [selectedButton, setSelectedButton] = useState(0);
   const [trades, setTrades] = useState([] as Trade[]);
   const [pnl, setPnl] = useState(0);
   const [fees, setFees] = useState(0);
@@ -116,6 +118,10 @@ export default function History({ address }: { address: string }) {
     for (let i = data.length - 1; i >= 0; i--) {
       const trade = data[i];
       const market = MARKETS[trade.market];
+
+      if (Number.parseInt(trade.timestamp) * 1000 < timeframe) {
+        continue;
+      }
 
       if (!market) {
         console.log(trade.market);
@@ -209,7 +215,7 @@ export default function History({ address }: { address: string }) {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [timeframe]);
 
   // @ts-ignore
   const customTooltip = (props) => {
@@ -341,6 +347,65 @@ export default function History({ address }: { address: string }) {
           </p>
         </Card> */}
       </div>
+
+      <div className="flex gap-2 w-full">
+        <Button
+          variant={selectedButton === 1 ? "primary" : "secondary"}
+          color="green"
+          className="grow"
+          onClick={() => {
+            setTimeframe(new Date().getTime() - 1000 * 60 * 60 * 24);
+            setSelectedButton(1);
+          }}
+        >
+          1D
+        </Button>
+        <Button
+          variant={selectedButton === 2 ? "primary" : "secondary"}
+          color="green"
+          className="grow"
+          onClick={() => {
+            setTimeframe(new Date().getTime() - 1000 * 60 * 60 * 24 * 7);
+            setSelectedButton(2);
+          }}
+        >
+          7D
+        </Button>
+        <Button
+          variant={selectedButton === 3 ? "primary" : "secondary"}
+          color="green"
+          className="grow"
+          onClick={() => {
+            setTimeframe(new Date().getTime() - 1000 * 60 * 60 * 24 * 30);
+            setSelectedButton(3);
+          }}
+        >
+          30D
+        </Button>
+        <Button
+          variant={selectedButton === 4 ? "primary" : "secondary"}
+          color="green"
+          className="grow"
+          onClick={() => {
+            setTimeframe(new Date("2024-01-01").getTime());
+            setSelectedButton(4);
+          }}
+        >
+          YTD
+        </Button>
+        <Button
+          variant={selectedButton === 0 ? "primary" : "secondary"}
+          color="green"
+          className="grow"
+          onClick={() => {
+            setTimeframe(0);
+            setSelectedButton(0);
+          }}
+        >
+          All Time
+        </Button>
+      </div>
+
       {balanceHistory.length > 0 && (
         <Card>
           <AreaChart
