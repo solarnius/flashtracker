@@ -30,7 +30,7 @@ export default function RootLayout({
               <a
                 href="https://beast.flash.trade?referral=Beast_1373"
                 target="blank"
-                className="text-black p-2 rounded text-sm"
+                className="text-black p-2 rounded text-sm font-medium"
                 style={{
                   background:
                     "linear-gradient(94.61deg,#fffaf3 -4.98%,#fff200 32.6%,#01e1e0 114.17%)",

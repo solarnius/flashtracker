@@ -261,12 +261,12 @@ export default function History({ address }: { address: string }) {
       </div>
 
       <div className="flex gap-4 w-full">
-        <Card className="mx-auto grow">
+        <Card className="mx-auto grow p-4">
           <h4 className="text-tremor-default text-tremor-content dark:text-dark-tremor-content">
             Net Profit
           </h4>
           <p
-            className="text-tremor-title sm:text-tremor-metric font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong"
+            className="text-xl sm:text-tremor-metric font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong"
             style={{ color: pnl - fees > 0 ? "#15803d" : "#b91c1c" }}
           >
             {((pnl - fees) / 1_000_000).toLocaleString("en-US", {
@@ -287,12 +287,12 @@ export default function History({ address }: { address: string }) {
           </p>
         </Card>
 
-        <Card className="mx-auto grow flex flex-col justify-center">
+        <Card className="mx-auto grow flex flex-col justify-center p-4">
           <h4 className="text-tremor-default text-tremor-content dark:text-dark-tremor-content">
             Fees Saved
           </h4>
           <p
-            className="text-tremor-title sm:text-tremor-metric font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong"
+            className="text-xl sm:text-tremor-metric font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong"
             style={{ color: "#15803d" }}
           >
             {(feesSaved / 1_000_000).toLocaleString("en-US", {
@@ -311,12 +311,12 @@ export default function History({ address }: { address: string }) {
         </Card>
       </div>
       <div className="flex gap-4 w-full">
-        <Card className="mx-auto grow">
+        <Card className="mx-auto grow p-4">
           <h4 className="text-tremor-default text-tremor-content dark:text-dark-tremor-content">
             Gross Profit
           </h4>
           <p
-            className="text-tremor-title sm:text-tremor-metric font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong"
+            className="text-xl sm:text-tremor-metric font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong"
             style={{ color: pnl > 0 ? "#15803d" : "#b91c1c" }}
           >
             {(pnl / 1_000_000).toLocaleString("en-US", {
@@ -326,11 +326,11 @@ export default function History({ address }: { address: string }) {
           </p>
         </Card>
 
-        <Card className="mx-auto grow">
+        <Card className="mx-auto grow p-4">
           <h4 className="text-tremor-default text-tremor-content dark:text-dark-tremor-content">
             Fees Paid
           </h4>
-          <p className="text-tremor-title sm:text-tremor-metric font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong">
+          <p className="text-xl sm:text-tremor-metric font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong">
             {(fees / 1_000_000).toLocaleString("en-US", {
               currency: "USD",
               style: "currency",
