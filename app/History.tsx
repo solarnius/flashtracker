@@ -172,7 +172,7 @@ export default function History({ address }: { address: string }) {
         balanceAfterFees -= currentPositions[trade.positionAddress] * 1_000_000;
       }
 
-      if (trade.feeAmount && trade.tradeType !== "CLOSE_POSITION") {
+      if (trade.feeAmount) {
         const price = Number.parseInt(trade.price, 10) / market.denomination;
 
         let feeUsd = Number.parseInt(trade.feeAmount, 10);
@@ -181,7 +181,9 @@ export default function History({ address }: { address: string }) {
           feeUsd = Number.parseInt(trade.feeAmount) * price;
         }
 
-        balanceAfterFees -= feeUsd;
+        if (trade.tradeType !== "CLOSE_POSITION") {
+          balanceAfterFees -= feeUsd;
+        }
 
         if (trade.tradeType === "OPEN_POSITION") {
           const baseFeeRate =
