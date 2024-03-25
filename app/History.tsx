@@ -183,7 +183,11 @@ export default function History({ address }: { address: string }) {
 
         if (trade.tradeType !== "CLOSE_POSITION") {
           balanceAfterFees -= feeUsd;
+        } else {
+          balance += feeUsd;
         }
+
+        // balanceAfterFees -= feeUsd;
 
         if (trade.tradeType === "OPEN_POSITION") {
           const baseFeeRate =
