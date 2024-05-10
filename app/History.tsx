@@ -76,8 +76,64 @@ const MARKETS = {
     name: "JTO",
     denomination: 1_000_000_000,
   },
-  G7RdCWx4eNfLdagGp4H2tKwhTi9JihBozVLGMVduF1Xe: {
+  "G7RdCWx4eNfLdagGp4H2tKwhTi9JihBozVLGMVduF1Xe": {
     // short jto
+    name: "USDC",
+    denomination: 1_000_000,
+  },
+  // changes fromm here to add W from Pool 3 and Pool 2 markets
+  "Dk2P1xDyewb9nxsMacw6gfuhTb3DqPZM1Sm97K66CTQK": {
+    name: "W",
+    denomination: 1_000_000,
+  },
+  "9mMAN4hFvw5AGB6eNay1WvNsGoyK9xcBafZ5tVbHcHQq": {
+    // short w
+    name: "USDC",
+    denomination: 1_000_000,
+  },
+  // Pool 2 markets
+  "B71om3HUqZ64e9wRj1R8LbWUFvw6cde4yuU4yXvo4GYv": {
+    name: "XAU",
+    denomination: 1_000_000,
+  },
+  "9wV2Y87ix64cFP6B3VNxuXiabTPYgAm65MuqgivXVUn7": {
+    // short xau
+    name: "USDC",
+    denomination: 1_000_000,
+  },
+  "33tCg8Mao8ga7tC6XaFdAVCswXx1rmSWQ15k3bafv2Nc": {
+    name: "XAG",
+    denomination: 1_000_000,
+  },
+    "5jZUiUV8BXdE1xDkVShLTKmPHhM4mk7vo9mASa3yZJZD": { 
+    // short xag
+    name: "USDC",
+    denomination: 1_000_000,
+  },
+    "4ryTFNWPE1J1X3akTrXjygS47b9agM9uGGByc1TvxbdN": {
+    name: "EUR",
+    denomination: 1_000_000,
+  },
+    "Cz3FVEBdQ2Ns2uorfM6ZjWbvqMNRSnSHaTFprAcKUzEJ": {
+      // short eur
+    name: "USDC",
+    denomination: 1_000_000,
+  },
+    "9DsZe98fHrdqpswQEy1Hj7rnNdFJ8CnHdU1bxLAHgMge": {
+    name: "GBP",
+    denomination: 1_000_000,
+  },
+    "5bZp6dEDMq3Bb7r4YidXtvffZdxfsU3qZ9ueSZt4vu6S": {
+      // short gbp
+    name: "USDC",
+    denomination: 1_000_000,
+  },
+  "6yCsUoaTU4JVNikkEXfCV7KKDh7FcMY23hcvKk9dqhqf": {
+    name: "AUD",
+    denomination: 1_000_000,
+  },
+  "BnA1TVMsE4jsrdCwo38n6EwpRCkKzVxwVhXE7izmBd8F": {
+      // short aud
     name: "USDC",
     denomination: 1_000_000,
   },
